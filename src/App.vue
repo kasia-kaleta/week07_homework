@@ -1,13 +1,19 @@
 <template>
   <div id="app">
+    <header>
+      <h1>The Guardian Articles</h1>
+    </header>
 
   </div>
 </template>
 
 <script>
-
+import ArticleSelect from '@/components/ArticleSelect.vue'
 
 export default {
+  components: {
+    'article-select': ArticleSelect
+  },
   data(){
     return {
       articles: [],
@@ -16,8 +22,9 @@ export default {
   mounted(){
     fetch('https://content.guardianapis.com/search?q=brexit&format=json&api-key=test')
     .then(res => res.json())
-    .then(banana => this.articles = banana)
-    
+    .then(resjson => this.articles = resjson.response.results)
+
+
 
 
 
