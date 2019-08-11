@@ -3,32 +3,38 @@
     <header>
       <h1>The Guardian Articles</h1>
     </header>
+    <article-select :articles="articles"/>
+    <display-article :article="selectedArticle"/>
 
   </div>
 </template>
 
 <script>
+import { eventBoat } from '@/main.js';
 import ArticleSelect from '@/components/ArticleSelect.vue'
+import DisplayArticle from '@/components/DisplayArticle.vue'
 
 export default {
   components: {
-    'article-select': ArticleSelect
+    'article-select': ArticleSelect,
+    'display-article': DisplayArticle
   },
+
   data(){
     return {
       articles: [],
+      selectedArticle: null
     }
   },
+
   mounted(){
+    eventBoat.$on('article-selected', (selectedIndex) => {
+      this.selectedArticle = this.articles[selectedIndex];
+    });
+
     fetch('https://content.guardianapis.com/search?q=brexit&format=json&api-key=test')
     .then(res => res.json())
     .then(resjson => this.articles = resjson.response.results)
-
-
-
-
-
-
   }
 }
 </script>
